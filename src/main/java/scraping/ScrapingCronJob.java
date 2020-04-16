@@ -25,7 +25,7 @@ public class ScrapingCronJob {
     @Autowired 
     private PriceRepository priceRepository;
 
-	//@Scheduled(fixedRate = 500000)
+	@Scheduled(cron = "0 0 12 * * *")
 	public void fetchPricing() {
 		if (objectIds.getIds() != null) {
 
