@@ -1,6 +1,8 @@
 package scraping;
 
 
+import java.util.Date;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -8,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import scraping.datamodel.Price;
+import scraping.datamodel.PriceRepository;
 import scraping.properties.AppartmentObjectIds;
 
 @Service
@@ -17,8 +21,11 @@ public class ScrapingCronJob {
 
 	@Autowired
 	private ImmoscoutHttpUrlConnection connection;
+	
+    @Autowired 
+    private PriceRepository priceRepository;
 
-	@Scheduled(fixedRate = 500000)
+	//@Scheduled(fixedRate = 500000)
 	public void fetchPricing() {
 		if (objectIds.getIds() != null) {
 
@@ -26,6 +33,12 @@ public class ScrapingCronJob {
 
 				String price = fetchPrice(objectId, connection.getHTMLPageSouce(objectId));
 				System.out.println("The price of id-" + objectId + " is " + price);
+				
+				Price priceModel = new Price();
+				priceModel.setObjectid(objectId);
+				priceModel.setPrice(price);
+				priceModel.setReadat(new Date());
+				priceRepository.save(priceModel);
 
 			}
 		}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Immoscout Price Tendency</title>
+<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</head>
+<body>
+<div id="chartContainer" style="width:100%; height: 400px"></div>
+<script th:inline="javascript">
+var dataPointsList = [[${dataPointsList}]];
+var dps = [new Array(),new Array()];
+var chart = new CanvasJS.Chart("chartContainer", {
+    theme: "light2",
+    animationEnabled: true,
+    title: {
+        text: "Immoscout Price Tendency"
+    },
+    axisX: {
+        valueFormatString: "MMM"
+    },
+    axisY: {
+        title: "Price (in euro)",
+        suffix: " euro"
+    },
+    data:[{
+    	type: "column",
+        xValueType: "dateTime",
+        xValueFormatString: "MMM",
+        yValueFormatString: "#,##0 euro",
+        dataPoints: dps[0]
+    }]
+});
+var xValue;
+var yValue;
+var id;
+
+dataPointsList.forEach(loopDatePointsList);
+
+function loopDatePointsList(dataPoints, index) {
+  id = index;
+  dataPoints.forEach(loopDataPoints);
+}
+
+function loopDataPoints(dataPoint, index){
+	xValue = dataPoint['x'];
+    yValue = parseInt(dataPoint['y']);
+  
+	dps[parseInt(id)].push({
+        y : yValue
+    });
+}
+chart.render();
+
+</script>
+
+</body>
+</html>
