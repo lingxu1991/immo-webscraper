@@ -47,11 +47,16 @@ var chart = new CanvasJS.Chart("chartContainer", {
         text: "Immoscout Price Tendency"
     },
     axisX: {
-        valueFormatString: "YYYY-MM-DD"
+        valueFormatString: "YYYY-MM-DD",
+        interval: 1,
+        intervalType: "day",
     },
     axisY: {
         title: "Price (in euro)",
         suffix: " euro"
+    },
+    toolTip: {
+        shared: true
     },
     data:dataArray
 });
