@@ -24,21 +24,21 @@ public class ChartsService {
 	private static final String yaxis = "y";
 	private static final String xaxis = "x";
 
-	public List<List<Map<Object, Object>>> getChartData() {
-		final List<List<Map<Object, Object>>> list = new ArrayList<List<Map<Object, Object>>>();
+	public Map<Object,List<Map<Object, Object>>> getChartData() {
+		final Map<Object,List<Map<Object, Object>>> list = new HashMap<Object,List<Map<Object, Object>>>();
 
 		for (String objectId : objectIds.getIds()) {
 			final List<Price> pricesForOneObject = priceRepository.findByObjectid(objectId);
 			final List<Map<Object, Object>> dataPoints = new ArrayList<Map<Object, Object>>();
 			for (Price price : pricesForOneObject) {
 				Map<Object, Object> map = new HashMap<Object, Object>();
-				map.put(xaxis, price.getReadat());
+				map.put(xaxis, price.getReadat().getTime());
 				Integer priceInt = convertPriceStringToInteger(price.getPrice());
 				map.put(yaxis, priceInt);
 
 				dataPoints.add(map);
 			}
-			list.add(dataPoints);
+			list.put(objectId, dataPoints);
 
 		}
 		return list;
