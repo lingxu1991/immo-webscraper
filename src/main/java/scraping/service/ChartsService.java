@@ -4,51 +4,72 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import scraping.datamodel.Price;
-import scraping.datamodel.PriceRepository;
-import scraping.properties.AppartmentObjectIds;
+import scraping.datamodel.AutoPrice;
+import scraping.datamodel.AutoPriceRepository;
+import scraping.datamodel.ImmoPrice;
+import scraping.datamodel.ImmoPriceRepository;
+import scraping.properties.ObjectIds;
 
 @Service
 public class ChartsService {
 	@Autowired
-	private PriceRepository priceRepository;
+	private ImmoPriceRepository immoPriceRepository;
+	
+	@Autowired
+	private AutoPriceRepository autoPriceRepository;
 
 	@Autowired
-	private AppartmentObjectIds objectIds;
+	private ObjectIds objectIds;
 
 	private static final String yaxis = "y";
 	private static final String xaxis = "x";
 
-	public Map<Object,List<Map<Object, Object>>> getChartData() {
-		final Map<Object,List<Map<Object, Object>>> list = new HashMap<Object,List<Map<Object, Object>>>();
+	public Map<Object,List<Map<Object, Object>>> getAppartmentChartData() {
+		final Map<Object,List<Map<Object, Object>>> map = new HashMap<Object,List<Map<Object, Object>>>();
 
-		for (String objectId : objectIds.getIds()) {
-			final List<Price> pricesForOneObject = priceRepository.findByObjectid(objectId);
+		for (String objectId : objectIds.getAppartmentIds()) {
+			final List<ImmoPrice> pricesForOneObject = immoPriceRepository.findByObjectid(objectId);
 			final List<Map<Object, Object>> dataPoints = new ArrayList<Map<Object, Object>>();
-			for (Price price : pricesForOneObject) {
-				Map<Object, Object> map = new HashMap<Object, Object>();
-				map.put(xaxis, price.getReadat().getTime());
+			for (ImmoPrice price : pricesForOneObject) {
+				Map<Object, Object> priceMap = new HashMap<Object, Object>();
+				priceMap.put(xaxis, price.getReadat().getTime());
 				Integer priceInt = convertPriceStringToInteger(price.getPrice());
-				map.put(yaxis, priceInt);
+				priceMap.put(yaxis, priceInt);
 
-				dataPoints.add(map);
+				dataPoints.add(priceMap);
 			}
-			list.put(objectId, dataPoints);
+			map.put(objectId, dataPoints);
 
 		}
-		return list;
+		return map;
 
 	}
 
 	private Integer convertPriceStringToInteger(String price) {
-		String priceWithOutCurrency = Optional.ofNullable(price.trim()).filter(sStr -> sStr.length() != 0)
-				.map(sStr -> sStr.substring(0, sStr.length() - 1)).orElse(price.trim()).trim();
-		String priceWithoutPunkt = priceWithOutCurrency.replace(".", "");
-		return Integer.parseInt(priceWithoutPunkt);
+		return Integer.parseInt(price);
+	}
+
+	public Map<Object, List<Map<Object, Object>>> getAutoChartData() {
+		final Map<Object,List<Map<Object, Object>>> map = new HashMap<Object,List<Map<Object, Object>>>();
+
+		for (String objectId : objectIds.getAutoIds()) {
+			final List<AutoPrice> pricesForOneObject = autoPriceRepository.findByObjectid(objectId);
+			final List<Map<Object, Object>> dataPoints = new ArrayList<Map<Object, Object>>();
+			for (AutoPrice price : pricesForOneObject) {
+				Map<Object, Object> priceMap = new HashMap<Object, Object>();
+				priceMap.put(xaxis, price.getReadat().getTime());
+				Integer priceInt = convertPriceStringToInteger(price.getPrice());
+				priceMap.put(yaxis, priceInt);
+
+				dataPoints.add(priceMap);
+			}
+			map.put(objectId, dataPoints);
+
+		}
+		return map;
 	}
 }

@@ -1,6 +1,20 @@
-ids:
-  - 115737228
-  - 117278083
-  
+appartmentIds:
+  - 115808684
+  - 117304983
+  - 112196135
+  - 116659118
+  - 117360841
+  - 116997555
+  - 112331124
+  - 117375731
+  - 117294727
+  - 117089923
+autoIds:
+  - audi-a3-sportback-sport-30-tfsi-s-tronic-navi-benzin-schwarz-d1d67eb5-fb84-41f7-b8b8-43585e9fb3c6
+  - audi-q2-sport-30-tfsi-s-tronic-led-navi-einparkassi-benzin-orange-00897739-c5f9-466d-a830-1c53d62bf71d
+  - volkswagen-golf-sportsvan-1-0-tsi-bmt-dsg-join-navi-kam-shz-benzin-rot-c77bc0ec-fb42-4599-a0be-2b578c98a4f2
+  - volkswagen-golf-variant-iq-drive-1-0tsi-dsg-acc-rfk-mfl-benzin-grau-df32ce7b-60bd-4b4b-b919-4f5d4a017076
+  - mini-cooper-clubman-automatik-upe-36-780-benzin-grau-40c2c449-7d00-4f17-ae3c-64d133a201cf
+  - mini-cooper-s-clubman-wired-chili-head-up-led-rfk-benzin-gruen-2d54a3a6-fad7-41e0-8ccc-38129843e7fb
 server:
   port: 10000

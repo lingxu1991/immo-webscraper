@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Price {
+public class ImmoPrice {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;

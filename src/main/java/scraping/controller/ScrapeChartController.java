@@ -20,8 +20,11 @@ public class ScrapeChartController {
  
 	@RequestMapping(method = RequestMethod.GET)
 	public String springMVC(ModelMap modelMap) {
-		Map<Object, List<Map<Object, Object>>> canvasjsDataList = chartsService.getChartData();
-		modelMap.addAttribute("dataPointsList", canvasjsDataList);
+		final Map<Object, List<Map<Object, Object>>> canvasjsDataMapForAppartment = chartsService.getAppartmentChartData();
+		modelMap.addAttribute("dataPointsMapForAppartment", canvasjsDataMapForAppartment);
+		
+		final Map<Object, List<Map<Object, Object>>> canvasjsDataMapForAuto = chartsService.getAutoChartData();
+		modelMap.addAttribute("dataPointsMapForAuto", canvasjsDataMapForAuto);
 		return "chart";
 	}
  
